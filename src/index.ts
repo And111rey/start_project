@@ -2,18 +2,18 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 
-const app = express();
+export const app = express();
 
 const port = process.env.PORT || 5000;
 
 type productsType = Array<{ id: Number; title: string }>;
 type addressesType = Array<{ id: Number; value: string }>;
 
-const products: productsType = [
+let products: productsType = [
   { id: 1, title: "tomato" },
   { id: 2, title: "orange" },
 ];
-const addresses: addressesType = [
+let addresses: addressesType = [
   { id: 1, value: "Myru avenu, 109" },
   { id: 2, value: "Kamenetska, 98" },
 ];
@@ -86,9 +86,14 @@ app.put("/products/:id", (req: Request, res: Response) => {
 
  
 });
+app.delete("__test__/addresses", (req, res) =>{
+  addresses = []
+  console.log("DELETED>>>>...........1212412412412")
+  res.sendStatus(204)
+})
 
 app.get("/addresses", (req: Request, res: Response) => {
-  res.send(addresses);
+  res.send(addresses).status(200);
 });
 
 app.get("/addresses/:id", (req: Request, res: Response) => {
@@ -100,6 +105,8 @@ app.get("/addresses/:id", (req: Request, res: Response) => {
     res.send("Bad request");
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
